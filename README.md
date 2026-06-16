@@ -2,8 +2,8 @@
 
 Code to reproduce all figures from:
 
-> **Stroke-induced suppression of sleep oscillations predicts functional recovery**
-> Landsness et al. — *Journal of Neuroscience* (in revision)
+> **Acute Slow Oscillation Power as a Biomarker of Injury Severity After Photothrombotic Stroke: Dissociation from Week 1 Functional Recovery**
+
 
 ---
 
