@@ -57,7 +57,7 @@ def main():
     # Infarct panels also negative — stats upper right is fine (no legend).
     panels = [
         (axes[0, 0], li_r1, y_ac,  'Acute Laterality Index (Lesion)',
-         'Acute Forelimb Asymmetry Score (%)',  'upper right', 'lower right', True,  'A'),
+         'Acute Forelimb Asymmetry Score (%)',  'upper right', 'upper left', True,  'A'),
         (axes[0, 1], li_r2, y_ac,  'Acute Laterality Index (Perilesional)',
          'Acute Forelimb Asymmetry Score (%)',  'upper right', None,          True,  'B'),
         (axes[1, 0], li_r1, y_wk,  'Acute Laterality Index (Lesion)',

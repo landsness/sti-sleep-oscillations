@@ -55,7 +55,7 @@ def main():
         xlabel='Infarct Volume (mm³)',
         ylabel='Week 1 Forelimb Asymmetry Score (%)',
         stats_text=format_stats(rho=r_wk, p=p_wk),
-        loc='lower left',
+        loc='lower right',
     )
     axes[1].axhline(0, color='#666666', lw=0.8, ls='--', alpha=0.6, zorder=1)
     add_panel_label(axes[1], 'B')

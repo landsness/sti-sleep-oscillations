@@ -162,7 +162,7 @@ def main():
         stats_text=format_stats(rho=rho, p=p), loc='upper right',
     )
     axes[0, 2].legend(handles=[patch_pos, patch_neg], fontsize=FONT_SIZES['legend'],
-                      framealpha=0.9, loc='lower left')
+                      framealpha=0.9, loc='upper left')
     add_panel_label(axes[0, 2], 'C')
 
     # ── Panel D: ROI2 ipsi vs acute behavior ──────────────────────────────────────
