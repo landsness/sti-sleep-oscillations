@@ -42,7 +42,7 @@ def main():
 
         scatter_with_regression(
             ax, x, y, [color] * len(x),
-            xlabel=r'Acute Ipsilateral SO Power (ROI1, $\times 10^{-5}$ µV²)',
+            xlabel=r'Acute Ipsilateral SO Power (Lesion, $\times 10^{-5}$ µV²)',
             ylabel='Acute Forelimb Asymmetry Score (%)',
             stats_text=format_stats(rho=rho, p=p),
             loc='upper right',

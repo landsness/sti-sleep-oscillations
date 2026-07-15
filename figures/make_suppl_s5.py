@@ -41,7 +41,7 @@ def main():
 
     scatter_with_regression(
         ax, x_li_r2, y_wk, colors_all,
-        xlabel='Baseline Laterality Index (ROI2)',
+        xlabel='Baseline Laterality Index (Perilesional)',
         ylabel='Week 1 Forelimb Asymmetry Score (%)',
         stats_text=stats_text,
         loc='lower right',

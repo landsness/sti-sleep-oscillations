@@ -37,17 +37,17 @@ DATA_FILE = FIGURES_DIR.parent / 'WFCI AI Summary.xlsx'
 OUTPUT_DIR = FIGURES_DIR / 'final'
 
 # Axis labels
-SO_IPSI_ROI1  = r'Acute Ipsilateral SO Power' + '\n' + r'(ROI1, $\times 10^{-5}$ µV²)'
-SO_IPSI_ROI2  = r'Acute Ipsilateral SO Power' + '\n' + r'(ROI2, $\times 10^{-5}$ µV²)'
-SO_CONTRA_ROI1 = r'Acute Contralateral SO Power' + '\n' + r'(ROI1, $\times 10^{-5}$ µV²)'
-SO_CONTRA_ROI2 = r'Acute Contralateral SO Power' + '\n' + r'(ROI2, $\times 10^{-5}$ µV²)'
+SO_IPSI_ROI1  = r'Acute Ipsilateral SO Power' + '\n' + r'(Lesion, $\times 10^{-5}$ µV²)'
+SO_IPSI_ROI2  = r'Acute Ipsilateral SO Power' + '\n' + r'(Perilesional, $\times 10^{-5}$ µV²)'
+SO_CONTRA_ROI1 = r'Acute Contralateral SO Power' + '\n' + r'(Lesion, $\times 10^{-5}$ µV²)'
+SO_CONTRA_ROI2 = r'Acute Contralateral SO Power' + '\n' + r'(Perilesional, $\times 10^{-5}$ µV²)'
 LI_ROI1_LABEL = 'Acute Laterality Index (ROI1)'
 BEH_ACUTE = 'Acute Forelimb\nAsymmetry Score (%)'
 
 # Channel order: ipsilateral left, contralateral right
 COLS = ['so_power_roi1_ipsi', 'so_power_roi2_ipsi',
         'so_power_roi1_contra', 'so_power_roi2_contra']
-CH_LABELS = ['ROI1\nIpsi', 'ROI2\nIpsi', 'ROI1\nContra', 'ROI2\nContra']
+CH_LABELS = ['Lesion\nIpsi', 'Peri\nIpsi', 'Lesion\nContra', 'Peri\nContra']
 CH_COLORS  = [COLORS['roi1'], COLORS['roi2'], COLORS['roi1'], COLORS['roi2']]
 
 
@@ -102,8 +102,8 @@ def main():
 
     patch_pos = mpatches.Patch(color=COLORS['sti_pos'], label='STI+')
     patch_neg = mpatches.Patch(color=COLORS['sti_neg'], label='STI-')
-    patch_r1  = mpatches.Patch(color=COLORS['roi1'], label='ROI1 (Infarct Core)')
-    patch_r2  = mpatches.Patch(color=COLORS['roi2'], label='ROI2 (Perilesional)')
+    patch_r1  = mpatches.Patch(color=COLORS['roi1'], label='Lesion')
+    patch_r2  = mpatches.Patch(color=COLORS['roi2'], label='Perilesional')
 
     # 2×3 grid — 6 panels:
     # Row 0: A (strip+box all animals), B (strip+box STI groups), C (ROI1 ipsi scatter)

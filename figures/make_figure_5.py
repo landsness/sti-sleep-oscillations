@@ -108,7 +108,7 @@ def main():
         axes[0],
         x=x_li, y=y_wk1,
         colors=point_colors,
-        xlabel='Baseline Laterality Index (ROI1)',
+        xlabel='Baseline Laterality Index (Lesion)',
         ylabel='Week 1 Forelimb Asymmetry Score (%)',
         stats_text=stats_text_a,
         loc='lower left',
@@ -123,7 +123,7 @@ def main():
         axes[1],
         x=x_li, y=x_stroke,
         colors=point_colors,
-        xlabel='Baseline Laterality Index (ROI1)',
+        xlabel='Baseline Laterality Index (Lesion)',
         ylabel='Infarct Volume (mm³)',   # mm³
         stats_text=stats_text_b,
         loc='upper right',
