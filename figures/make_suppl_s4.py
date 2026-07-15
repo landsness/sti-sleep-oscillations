@@ -36,8 +36,8 @@ def main():
     y_wk = wk.loc[bl.index, 'behavior_score'].values
 
     panels = [
-        ('so_power_roi1_ipsi', 'Baseline Ipsilateral SO Power\n' + r'(ROI1, $\times 10^{-5}$ µV²)', 'A'),
-        ('so_power_roi2_ipsi', 'Baseline Ipsilateral SO Power\n' + r'(ROI2, $\times 10^{-5}$ µV²)', 'B'),
+        ('so_power_roi1_ipsi', 'Baseline Ipsilateral SO Power\n' + r'(Lesion, $\times 10^{-5}$ µV²)', 'A'),
+        ('so_power_roi2_ipsi', 'Baseline Ipsilateral SO Power\n' + r'(Perilesional, $\times 10^{-5}$ µV²)', 'B'),
     ]
 
     fig, axes = plt.subplots(1, 2, figsize=(10, 4.5))

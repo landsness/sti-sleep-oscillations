@@ -91,10 +91,10 @@ def make_figure(prepared):
     # A=BL ROI1, B=BL ROI2, C=Acute ROI1, D=Acute ROI2
     # NOTE: manuscript in-text citations must use 3A,B for baseline and 3C,D for acute
     timepoints = [
-        ('Baseline',    bl, 'so_power_roi1_ipsi', 'so_power_roi1_contra', 'ROI1', 'A'),
-        ('Baseline',    bl, 'so_power_roi2_ipsi', 'so_power_roi2_contra', 'ROI2', 'B'),
-        ('Acute (24h)', ac, 'so_power_roi1_ipsi', 'so_power_roi1_contra', 'ROI1', 'C'),
-        ('Acute (24h)', ac, 'so_power_roi2_ipsi', 'so_power_roi2_contra', 'ROI2', 'D'),
+        ('Baseline',    bl, 'so_power_roi1_ipsi', 'so_power_roi1_contra', 'Lesion',       'A'),
+        ('Baseline',    bl, 'so_power_roi2_ipsi', 'so_power_roi2_contra', 'Perilesional', 'B'),
+        ('Acute (24h)', ac, 'so_power_roi1_ipsi', 'so_power_roi1_contra', 'Lesion',       'C'),
+        ('Acute (24h)', ac, 'so_power_roi2_ipsi', 'so_power_roi2_contra', 'Perilesional', 'D'),
     ]
 
     ax_flat = [axes[0, 0], axes[0, 1], axes[1, 0], axes[1, 1]]
@@ -165,7 +165,7 @@ def make_figure(prepared):
     plt.tight_layout(pad=0.5)
 
     # Add column headers and row labels to make the matrix self-documenting
-    col_headers = ['ROI1 (Infarct Core)', 'ROI2 (Perilesional)']
+    col_headers = ['Lesion', 'Perilesional']
     row_labels  = ['Baseline', 'Acute (24h)']
 
     for col_idx, header in enumerate(col_headers):

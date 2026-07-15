@@ -58,10 +58,10 @@ def main():
     ax = axes[0]
 
     line_specs_so = [
-        ('so_power_roi1_ipsi',   COLORS['roi1'], '-',  'ROI1 Ipsilateral'),
-        ('so_power_roi1_contra', COLORS['roi1'], '--', 'ROI1 Contralateral'),
-        ('so_power_roi2_ipsi',   COLORS['roi2'], '-',  'ROI2 Ipsilateral'),
-        ('so_power_roi2_contra', COLORS['roi2'], '--', 'ROI2 Contralateral'),
+        ('so_power_roi1_ipsi',   COLORS['roi1'], '-',  'Lesion Ipsilateral'),
+        ('so_power_roi1_contra', COLORS['roi1'], '--', 'Lesion Contralateral'),
+        ('so_power_roi2_ipsi',   COLORS['roi2'], '-',  'Peri Ipsilateral'),
+        ('so_power_roi2_contra', COLORS['roi2'], '--', 'Peri Contralateral'),
     ]
 
     for col, color, ls, label in line_specs_so:
@@ -87,13 +87,13 @@ def main():
 
     legend_handles_so = [
         Line2D([0], [0], color=COLORS['roi1'], lw=LINE_WIDTHS['errorbar'],
-               ls='-',  marker='o', markersize=3, label='ROI1 Ipsilateral'),
+               ls='-',  marker='o', markersize=3, label='Lesion Ipsilateral'),
         Line2D([0], [0], color=COLORS['roi1'], lw=LINE_WIDTHS['errorbar'],
-               ls='--', marker='o', markersize=3, label='ROI1 Contralateral'),
+               ls='--', marker='o', markersize=3, label='Lesion Contralateral'),
         Line2D([0], [0], color=COLORS['roi2'], lw=LINE_WIDTHS['errorbar'],
-               ls='-',  marker='o', markersize=3, label='ROI2 Ipsilateral'),
+               ls='-',  marker='o', markersize=3, label='Peri Ipsilateral'),
         Line2D([0], [0], color=COLORS['roi2'], lw=LINE_WIDTHS['errorbar'],
-               ls='--', marker='o', markersize=3, label='ROI2 Contralateral'),
+               ls='--', marker='o', markersize=3, label='Peri Contralateral'),
     ]
     ax.legend(handles=legend_handles_so, fontsize=5,
               loc='upper right', framealpha=0.9,
@@ -115,8 +115,8 @@ def main():
     r_wk_r2, p_wk_r2 = pearson_r(wk,  'so_power_roi2_ipsi', 'so_power_roi2_contra')
 
     cov_specs = [
-        ([r_bl_r1, r_ac_r1, r_wk_r1], COLORS['roi1'], 'o', 'ROI1 (Infarct Core)'),
-        ([r_bl_r2, r_ac_r2, r_wk_r2], COLORS['roi2'], 's', 'ROI2 (Perilesional)'),
+        ([r_bl_r1, r_ac_r1, r_wk_r1], COLORS['roi1'], 'o', 'Lesion'),
+        ([r_bl_r2, r_ac_r2, r_wk_r2], COLORS['roi2'], 's', 'Perilesional'),
     ]
 
     for r_vals, color, marker, label in cov_specs:
@@ -133,9 +133,9 @@ def main():
 
     legend_handles_cov = [
         Line2D([0], [0], color=COLORS['roi1'], lw=LINE_WIDTHS['errorbar'],
-               marker='o', markersize=4, label='ROI1 (Infarct Core)'),
+               marker='o', markersize=4, label='Lesion'),
         Line2D([0], [0], color=COLORS['roi2'], lw=LINE_WIDTHS['errorbar'],
-               marker='s', markersize=4, label='ROI2 (Perilesional)'),
+               marker='s', markersize=4, label='Perilesional'),
     ]
     ax.legend(handles=legend_handles_cov, fontsize=5,
               loc='lower right', framealpha=0.9,
@@ -159,7 +159,7 @@ def main():
         axes[2],
         data_pos=wk_so_pos,
         data_neg=wk_so_neg,
-        ylabel='ROI1 Ipsilateral SO\n(% Baseline, Week 1)',
+        ylabel='Lesion Ipsilateral SO\n(% Baseline, Week 1)',
         panel_label='C',
         p_val=p_so,
     )

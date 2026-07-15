@@ -56,17 +56,17 @@ def main():
     # Legend (Panel A only) goes lower right to avoid the stats box.
     # Infarct panels also negative — stats upper right is fine (no legend).
     panels = [
-        (axes[0, 0], li_r1, y_ac,  'Acute Laterality Index (ROI1)',
+        (axes[0, 0], li_r1, y_ac,  'Acute Laterality Index (Lesion)',
          'Acute Forelimb Asymmetry Score (%)',  'upper right', 'lower right', True,  'A'),
-        (axes[0, 1], li_r2, y_ac,  'Acute Laterality Index (ROI2)',
+        (axes[0, 1], li_r2, y_ac,  'Acute Laterality Index (Perilesional)',
          'Acute Forelimb Asymmetry Score (%)',  'upper right', None,          True,  'B'),
-        (axes[1, 0], li_r1, y_wk,  'Acute Laterality Index (ROI1)',
+        (axes[1, 0], li_r1, y_wk,  'Acute Laterality Index (Lesion)',
          'Week 1 Forelimb Asymmetry Score (%)', 'upper right', None,          True,  'C'),
-        (axes[1, 1], li_r2, y_wk,  'Acute Laterality Index (ROI2)',
+        (axes[1, 1], li_r2, y_wk,  'Acute Laterality Index (Perilesional)',
          'Week 1 Forelimb Asymmetry Score (%)', 'upper right', None,          True,  'D'),
-        (axes[2, 0], li_r1, x_inf, 'Acute Laterality Index (ROI1)',
+        (axes[2, 0], li_r1, x_inf, 'Acute Laterality Index (Lesion)',
          'Infarct Volume (mm³)',                'upper right', None,          False, 'E'),
-        (axes[2, 1], li_r2, x_inf, 'Acute Laterality Index (ROI2)',
+        (axes[2, 1], li_r2, x_inf, 'Acute Laterality Index (Perilesional)',
          'Infarct Volume (mm³)',                'upper right', None,          False, 'F'),
     ]
 
