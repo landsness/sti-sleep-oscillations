@@ -3,7 +3,7 @@
 Frontiers specs:
   - TIFF, LZW compression, RGB 8-bit, 300 dpi
   - Two-column max: 7.09 in (180 mm); single-column: 3.35 in (85 mm)
-  - Minimum font size: 8 pt (use default figure_style sizes -- no downscaling needed)
+  - Minimum font size: 8 pt; fonts/markers scaled to match JNeurosci proportions
 
 Output directory: figures_frontiers/
     Figure1.tif  Figure2.tif  Figure3.tif  Figure4.tif  Figure5.tif
@@ -57,7 +57,7 @@ def _h(orig_w, orig_h, tgt_w):
 
 TARGET_FIGSIZE = {
     'make_figure_1': (TWO_COL, _h(8.5,  4.5, TWO_COL)),   # 7.09 x 3.75
-    'make_figure_2': (TWO_COL, _h(15.0, 9.0, TWO_COL)),   # 7.09 x 4.25
+    'make_figure_2': (TWO_COL, 5.0),                        # extra height for 6 crowded panels
     'make_figure_3': (6.6,     _h(10.0, 9.0, 6.6)),        # 6.6 nominal -> ~180 mm after tight bbox
     'make_figure_4': (TWO_COL, 2.8),                        # override: proportional too flat
     'make_figure_5': (TWO_COL, _h(10.0, 4.8, TWO_COL)),   # 7.09 x 3.40
@@ -72,9 +72,41 @@ DPI = 300
 results = []
 
 # ---------------------------------------------------------------------------
-# Patch figure_style dicts IN-PLACE
-# Use default (non-JNeurosci) font/marker sizes -- 8-9 pt is within Frontiers range
+# Style constants scaled for 7" print width — same as JNeurosci export.
+# Frontiers minimum is 8 pt; bump tick/stats/legend to 8 (from JNeurosci's 6).
 # ---------------------------------------------------------------------------
+FR_FONT_SIZES = {
+    'panel_label': 8,
+    'title':       8,
+    'axis_label':  8,
+    'tick':        8,
+    'stats':       8,
+    'legend':      8,
+    'sig_star':    8,
+}
+FR_LINE_WIDTHS = {
+    'regression':  0.75,
+    'identity':    0.5,
+    'axis':        0.5,
+    'bracket':     0.6,
+    'errorbar':    0.8,
+    'median':      1.2,
+    'box_whisker': 0.6,
+}
+FR_MARKER_SIZES = {
+    'scatter':  20,
+    'errorbar':  4,
+    'strip':    15,
+}
+
+orig_font_sizes   = dict(figure_style.FONT_SIZES)
+orig_line_widths  = dict(figure_style.LINE_WIDTHS)
+orig_marker_sizes = dict(figure_style.MARKER_SIZES)
+
+figure_style.FONT_SIZES.update(FR_FONT_SIZES)
+figure_style.LINE_WIDTHS.update(FR_LINE_WIDTHS)
+figure_style.MARKER_SIZES.update(FR_MARKER_SIZES)
+
 _orig_subplots   = plt.subplots
 _current_figsize = [None]
 
@@ -151,6 +183,9 @@ for script_name in SCRIPTS:
     plt.close('all')
 
 plt.subplots = _orig_subplots
+figure_style.FONT_SIZES.update(orig_font_sizes)
+figure_style.LINE_WIDTHS.update(orig_line_widths)
+figure_style.MARKER_SIZES.update(orig_marker_sizes)
 
 # ---------------------------------------------------------------------------
 # Summary

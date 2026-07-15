@@ -95,10 +95,10 @@ def main():
         Line2D([0], [0], color=COLORS['roi2'], lw=LINE_WIDTHS['errorbar'],
                ls='--', marker='o', markersize=3, label='Peri Contralateral'),
     ]
-    ax.legend(handles=legend_handles_so, fontsize=5,
+    ax.legend(handles=legend_handles_so, fontsize=4,
               loc='upper right', framealpha=0.9,
-              handlelength=2.0, handleheight=0.8,
-              handletextpad=0.4, borderpad=0.4, labelspacing=0.3)
+              handlelength=1.5, handleheight=0.6,
+              handletextpad=0.3, borderpad=0.3, labelspacing=0.2)
     style_ax(ax)
     add_panel_label(ax, 'A')
 

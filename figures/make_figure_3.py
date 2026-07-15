@@ -151,7 +151,8 @@ def make_figure(prepared):
                       fontsize=FONT_SIZES['axis_label'])
         # No panel title — handled by panel labels and figure legend
 
-        add_panel_label(ax, panel)
+        x_label = -0.06 if panel in ('B', 'D') else -0.12
+        add_panel_label(ax, panel, x=x_label)
 
         # Legend only in panel A
         if panel == 'A':
@@ -181,7 +182,7 @@ def make_figure(prepared):
         ax = ax_flat[row_idx * 2]  # left column axes
         ax.annotate(label,
                     xy=(0.0, 0.5), xycoords='axes fraction',
-                    xytext=(-52, 0), textcoords='offset points',
+                    xytext=(-40, 0), textcoords='offset points',
                     ha='right', va='center',
                     fontsize=FONT_SIZES['axis_label'],
                     fontweight='bold', rotation=90)
