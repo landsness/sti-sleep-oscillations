@@ -13,7 +13,7 @@ __all__ = [
     'COLORS', 'FONT_SIZES', 'LINE_WIDTHS', 'MARKER_SIZES', 'EXPORT_SETTINGS',
     'set_publication_style', 'style_ax', 'add_panel_label', 'add_stats_box',
     'scatter_with_regression', 'add_identity_line', 'add_sig_bracket',
-    'format_pval', 'format_stats', 'strip_box_panel', 'coupling_bar_chart',
+    'format_pval', 'format_qval', 'format_stats', 'strip_box_panel', 'coupling_bar_chart',
     'save_figure',
 ]
 
@@ -141,7 +141,8 @@ def add_stats_box(ax, text, loc='upper left'):
 # Scatter + regression
 # ---------------------------------------------------------------------------
 
-def scatter_with_regression(ax, x, y, colors, xlabel, ylabel, stats_text, loc='upper right'):
+def scatter_with_regression(ax, x, y, colors, xlabel, ylabel, stats_text, loc='upper right',
+                            regression=True):
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=float)
 
@@ -159,7 +160,7 @@ def scatter_with_regression(ax, x, y, colors, xlabel, ylabel, stats_text, loc='u
         zorder=3,
     )
 
-    if xc.size > 1:
+    if regression and xc.size > 1:
         slope, intercept, *_ = stats.linregress(xc, yc)
         x_line = np.array([xc.min(), xc.max()])
         ax.plot(
@@ -228,20 +229,29 @@ def format_pval(p):
     return f'p = {p:.3f}'
 
 
+def format_qval(q):
+    """Benjamini-Hochberg FDR-adjusted p (confirmatory correlation family; analysis/fdr.py)."""
+    if q < 0.001:
+        return 'q < 0.001'
+    return f'q = {q:.3f}'
+
+
 def format_stats(rho=None, r=None, p=None, n=None, partial_rho=None, partial_p=None,
-                 show_n=False):
+                 show_n=False, q=None):
     # n is hidden by default — not shown on figures per publication style
     lines = []
     if rho is not None:
-        lines.append(f'ρ = {rho:.3f}')
+        lines.append(f'ρ = {rho:.3f}'.replace('-', '\u2212'))
     if r is not None:
-        lines.append(f'r = {r:.3f}')
+        lines.append(f'r = {r:.3f}'.replace('-', '\u2212'))
     if p is not None:
         lines.append(format_pval(p))
+    if q is not None:
+        lines.append(format_qval(q))
     if n is not None and show_n:
         lines.append(f'n = {n}')
     if partial_rho is not None:
-        lines.append(f'partial ρ = {partial_rho:.3f}')
+        lines.append(f'partial ρ = {partial_rho:.3f}'.replace('-', '\u2212'))
         if partial_p is not None:
             lines.append(format_pval(partial_p))
     return '\n'.join(lines)
@@ -424,53 +434,57 @@ def save_figure(fig, output_stem, outdir, formats=('svg', 'pdf', 'png')):
     return paths
 
 # ---------------------------------------------------------------------------
-# Shared data loader — call from every figure script
+# Shared data loader -- lives in analysis/common.py; re-exported here so that
+# every figure script keeps a single import line.
 # ---------------------------------------------------------------------------
-def load_data(data_file):
-    """Load WFCI AI Summary.xlsx and return split long-format DataFrames.
-    Returns dict with keys: bl, ac, wk, wk_clean, sti_pos, sti_neg,
-                            sti_pos_clean, sti_neg_clean
-    All DataFrames are indexed by mouse_id.
-    """
-    import pandas as pd
-    import numpy as np
+import sys as _sys
+_ROOT = Path(__file__).resolve().parents[1]
+for _p in (str(_ROOT), str(_ROOT / 'analysis')):
+    if _p not in _sys.path:
+        _sys.path.insert(0, _p)
+from common import load_data, partial_spearman, steiger_dependent  # noqa: E402,F401
+from fdr import q_value  # noqa: E402,F401
 
-    df = pd.read_excel(data_file, sheet_name='AI Summary ')
-    df.columns = df.columns.str.strip()
-    for col in df.select_dtypes('object').columns:
-        df[col] = df[col].str.strip()
 
-    # Split by timepoint
-    bl = df[df['time_point'] == 'baseline'].set_index('mouse_id').copy()
-    ac = df[df['time_point'] == '24 hours'].set_index('mouse_id').copy()
-    wk = df[df['time_point'] == '1 week'].set_index('mouse_id').copy()
+# ---------------------------------------------------------------------------
+# Composite figures: raster/vector panels built by figures/panels/*.py are
+# placed into Figures 1 and 2 as images.
+# ---------------------------------------------------------------------------
+def panel_image(ax, stem, builder=None):
+    """Show results/panels/<stem>.png in `ax` (building it first with the
+    panel script `builder` -- a module name in figures/panels -- if missing)."""
+    import importlib
+    import config
+    png = config.PANELS / f'{stem}.png'
+    if not png.exists() and builder is not None:
+        panels_dir = str(Path(__file__).resolve().parent / 'panels')
+        if panels_dir not in _sys.path:
+            _sys.path.insert(0, panels_dir)
+        mod = importlib.import_module(builder)
+        if hasattr(mod, 'main'):
+            mod.main()
+    img = plt.imread(png)
+    ax.imshow(img, interpolation='lanczos')
+    ax.set_axis_off()
+    return img.shape[1] / img.shape[0]          # aspect (w / h)
 
-    # Outlier exclusion for week-1 only
-    OUTLIERS = ['DBSI_M02', 'DBSI_M04']
-    wk_clean = wk.drop([o for o in OUTLIERS if o in wk.index])
 
-    # STI group boolean masks (on baseline index)
-    sti_pos = bl['secondary_thalamic_injury'] == 1
-    sti_neg = bl['secondary_thalamic_injury'] == 0
-
-    # Clean dataset STI masks
-    bl_clean_sti = bl.loc[wk_clean.index, 'secondary_thalamic_injury']
-    sti_pos_clean = bl_clean_sti == 1
-    sti_neg_clean = bl_clean_sti == 0
-
-    # Compute lateralization index for both ROIs at all timepoints
-    for tp in [bl, ac, wk, wk_clean]:
-        for roi in ['roi1', 'roi2']:
-            ipsi  = tp[f'so_power_{roi}_ipsi']
-            contra = tp[f'so_power_{roi}_contra']
-            tp[f'LI_{roi}'] = (ipsi - contra) / (ipsi + contra)
-        # Percent baseline
-        for col in [c for c in tp.columns if c.startswith('so_power_')]:
-            if col in bl.columns:
-                tp[col + '_pct'] = (tp[col] / bl.loc[tp.index, col]) * 100
-
-    return dict(
-        bl=bl, ac=ac, wk=wk, wk_clean=wk_clean,
-        sti_pos=sti_pos, sti_neg=sti_neg,
-        sti_pos_clean=sti_pos_clean, sti_neg_clean=sti_neg_clean,
-    )
+def image_row(fig, gs_row, stems_builders, width_ratios=None):
+    """Fill one GridSpec row with image panels; returns their axes."""
+    import config
+    if width_ratios is None:
+        width_ratios = []
+        for stem, _ in stems_builders:
+            png = config.PANELS / f'{stem}.png'
+            try:
+                h, w = plt.imread(png).shape[:2]
+                width_ratios.append(w / h)
+            except FileNotFoundError:
+                width_ratios.append(1.0)
+    sub = gs_row.subgridspec(1, len(stems_builders), width_ratios=width_ratios, wspace=0.04)
+    axes = []
+    for i, (stem, builder) in enumerate(stems_builders):
+        ax = fig.add_subplot(sub[0, i])
+        panel_image(ax, stem, builder)
+        axes.append(ax)
+    return axes

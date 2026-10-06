@@ -16,3 +16,14 @@ Thumbs.db
 .vscode/
 .idea/
 *.swp
+
+# Pipeline outputs (regenerate with: python make_all.py)
+results/
+
+# Pre-restructure outputs kept locally for reference (not part of the repo)
+figures_frontiersJuly/
+figures/final_July/
+figures/__pycache__July/
+
+# Bundled ImageJ + Java program install (not part of the repo; keep locally only)
+ImageJ/
