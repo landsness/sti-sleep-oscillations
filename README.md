@@ -1,6 +1,6 @@
 # Slow Oscillations Track Acute Stroke Injury but Not Functional Recovery: analysis and figure code
 
-Lee J, Jadav AA, Landsness EC. Frontiers in Neurology (in revision).
+Lee J, Jadav Ajay A, Landsness EC. Frontiers in Neurology (in revision).
 
 This repository regenerates every statistic, table and figure in the manuscript from the data in `data/`.
 
