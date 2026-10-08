@@ -81,7 +81,7 @@ def sig_bracket(ax, x1, x2, y, p, dy=3):
             fontweight=fw, color=color)
 
 
-HEMI_STYLE = 'none'          # 'none' (chosen 2026-10-04; hemisphere stated in legend) or 'bracket'
+HEMI_STYLE = 'bracket'          # restored 2026-10-08 per Reviewer 1 R2: label Ipsilesional/Contralesional on D and E
 
 
 def hemi_groups(ax):
